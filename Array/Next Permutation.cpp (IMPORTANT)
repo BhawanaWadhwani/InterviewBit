@@ -1,0 +1,42 @@
+vector<int> Solution::nextPermutation(vector<int> &A) {
+    if(A.size() < 2)
+    return A;
+    
+    vector<int>B;
+    bool is=false;
+    int idx=-1;
+    for(int i=A.size()-2;i>=0;i--)
+    {
+        if(A[i]<A[i+1]) //as soon as a digit less than the next digit is encountered, break...eg- 12354 ...(3<5)next is 12435
+        {
+            is=true;
+            idx=i;
+            break;
+        }
+    }
+    
+    if(is==false)
+    {
+        for(int i=A.size()-1;i>=0;i--)
+        {
+            B.push_back(A[i]);
+        }
+        return B;
+    }
+    
+    int nn=A[idx];
+    sort(A.begin()+idx, A.end()); //sort all the remaining digits
+    
+    for(int i=idx+1; i<A.size(); i++)
+    {
+        if(A[i]>nn) //take a digit greater than that on index and sort remaining digits 
+        {
+            int temp=A[i];
+            A.erase(A.begin()+i);
+            A.insert(A.begin()+idx,temp);
+            break;
+        }
+    }
+    
+    return A;
+}
